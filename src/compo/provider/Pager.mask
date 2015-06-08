@@ -1,0 +1,33 @@
+.a-dataset-pager {
+	i.glyphicon.glyphicon-road;
+	.shadow-z-1 {
+		style scoped {
+			:host {
+				display: inline;
+				margin: 0px 10px;
+				padding: 10px 20px;
+				background: white;
+				color: gray;
+			}
+		}
+		
+		@placeholder;
+	
+		+if (pagerActive == false) {
+		
+			span > +if (pageNum != 1) {
+				button.btn.btn-sm x-tap=dataPagePrev >
+					i.glyphicon.glyphicon-arrow-left;
+			}
+			span > b > ' ~[bind: pageNum] '
+	
+			span > +if (isLastPage != true) {
+				button.btn.btn-sm x-tap=dataPageNext >
+					i.glyphicon.glyphicon-arrow-right;
+			}
+		}
+		else {
+			button.btn.btn-sm > i.fa.fa-circle-o-notch.fa-spin;
+		}
+	}
+}

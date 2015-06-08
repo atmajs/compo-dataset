@@ -1,0 +1,3 @@
+var IDataProvider = mask.Compo({
+	
+})
