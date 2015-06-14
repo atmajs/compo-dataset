@@ -10,15 +10,22 @@ var DatasetCompo = mask.Compo({
 	slots: {
 		datasetItemRemove (event) {
 			var model = $(event.target).model();
-				
+			
+			var onComfirm = () => {
+				this
+					.find('Editor')
+					.remove(model)
+					.done(onRemove)
+			};
+			var onRemove = () => {
+				var arr = this.data.collection,
+					i   = arr.indexOf(model);
+				arr.splice(i, 1);
+			};
 			this
 				.find('Confirmation')
 				.confirm('remove', model)
-				.done(() => {
-					var arr = this.data.collection;
-					var i   = arr.indexOf(model);
-					arr.splice(i, 1);
-				});
+				.done(onComfirm);
 		},
 		datasetItemEdit (event) {
 			var model = $(event.target).model();
@@ -35,13 +42,26 @@ var DatasetCompo = mask.Compo({
 		}
 	},
 	
+	filter (query) {
+		var provider = this.find('#provider');
+		if (provider && provider.filter) {
+			provider.filter(query);
+		}
+	},
+	
+	activity (diff) {
+		this.emitIn('datasetActivity', diff);
+	},
+	
 	onRenderStart (model, ctx, container) {
 		jmask(this).prepend('Activity; Confirmation;');
 		this.ensureDataProvider_();
 	},
 	
 	createDataItem () {
-		return {};
+		var provider = this.find('#provider');
+		var obj = mask.obj.get(provider, 'model.data.collection.0') || {};
+		return obj_createInstance(obj);
 	},
 	
 	ensureDataProvider_ () {
@@ -52,16 +72,13 @@ var DatasetCompo = mask.Compo({
 	},
 });
 
+mask.registerFromTemplate(`
+	// import Controls/Activity.mask
+	// import Controls/Confirmation.mask
+	// import Controls/Dialog.mask
+	// import Controls/Table.mask
+`, DatasetCompo);
 
-var Template = `
-	// import Activity.mask
-	// import Confirmation.mask
-	// import Dialog.mask
-`;
-
-mask.registerFromTemplate(Template, DatasetCompo);
-
-// import Table.es6
-// import Editor.es6
-// import ./provider/Model.es6
-// import ./provider/Pager.es6
+// import Components/Editor.es6
+// import Provider/Model.es6
+// import Provider/Pager.es6

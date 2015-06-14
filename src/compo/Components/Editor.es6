@@ -19,7 +19,7 @@
 			}
 		},
 		onRenderStart (model, ctx, container, parent) {
-			this.model = null;
+			this.model = {};
 		},
 		onRenderEnd () {
 			if (this.compos.form == null) {
@@ -31,6 +31,12 @@
 			this.defer();
 			this.compos.form.setEntity(model);
 			this.emitIn('datasetEditorOpen');
+			return this;
+		},
+		
+		remove (model) {
+			this.defer();
+			this.compos.form.removeEntity(model);
 			return this;
 		}
 	});

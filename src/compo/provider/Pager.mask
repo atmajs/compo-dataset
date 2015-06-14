@@ -1,3 +1,5 @@
+@placeholder;
+
 .a-dataset-pager {
 	i.glyphicon.glyphicon-road;
 	.shadow-z-1 {
@@ -11,18 +13,16 @@
 			}
 		}
 		
-		@placeholder;
-	
-		+if (pagerActive == false) {
+		+if (activity === 0) {
 		
 			span > +if (pageNum != 1) {
-				button.btn.btn-sm x-tap=dataPagePrev >
+				button.btn.btn-sm x-tap=datasetPagePrev >
 					i.glyphicon.glyphicon-arrow-left;
 			}
-			span > b > ' ~[bind: pageNum] '
+			span > b > ' ~[bind: pageNum]/~[bind: pageTotal]'
 	
 			span > +if (isLastPage != true) {
-				button.btn.btn-sm x-tap=dataPageNext >
+				button.btn.btn-sm x-tap=datasetPageNext >
 					i.glyphicon.glyphicon-arrow-right;
 			}
 		}

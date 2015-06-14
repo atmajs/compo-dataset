@@ -17,9 +17,16 @@ module.exports = {
 		output: 'lib/dataset.min.js'
 	},
 
+	'copy_project': {
+		action: 'copy',
+		files: {
+			'lib/dataset.js': 'file://d:/work/APO/Erfolgsrezept/Web/bower_components/compo-dataset/lib/'
+		}
+	},
+
 	'watch': {
 		files: 'src/**',
-		config: '#[build js]'
+		config: ['#[build js]', '#[copy_project]']
 	},
 	
 	'defaults': ['build js', 'uglify']

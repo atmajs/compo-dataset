@@ -4,7 +4,12 @@ var PagerDataProvider = Compo({
 		// import Pager.mask
 	`,
 	
+	attr: {
+		id: 'provider'
+	},
+	filterQuery: null,
 	meta: {
+		template: 'merge',
 		attributes: {
 			'endpoint': 'string',
 			'page-num': {
@@ -17,48 +22,104 @@ var PagerDataProvider = Compo({
 			'query-page-size': 'size',
 			'prop-collection': 'collection',
 			'prop-is-last': '',
-			'prop-total'  : '',
+			'prop-total'  : 'total',
 		}
 	},
 	
 	slots: {
-		dataPagePrev () {
+		datasetPagePrev () {
 			this.go_(-1);
 		},
-		datePageNext () {
+		datasetPageNext () {
 			this.go_(1);
 		}
+	},
+	
+	filter (query) {
+		for (var key in this.filterQuery) {
+			if (query == null || query[key] === void 0) {
+				this.filterQuery[key] = null;
+			}
+		}
+		if (query != null) {
+			this.filterQuery = query;
+		}
+		this.load_();
 	},
 	
 	aDataset: null,
 	onRenderStart (model, ctx, container, ctr) {
 		this.model = {
-			collection: null,
+			data: {
+				collection: null,
+			},
 			pageNum: this.xPageNum,
 			pageSize: this.xPageSize,
+			pageTotal: null,
 			isLastPage: false,
+			activity: 0,
 		};
-		this.aDataset = this.closest('a:dataset');		
+		
+		this.aDataset = this.closest('a:dataset');
+		this.readQuery_();
 		this.load_();
+	},
+	readQuery_ () {
+		if (typeof ruta == 'undefined') {
+			return;
+		}
+		var query = ruta._.query.get();
+		if (query == null) {
+			return;
+		}
+		read(this.xQueryPageNum,  val => this.model.pageNum  = val);
+		read(this.xQueryPageSize, val => this.model.pageSize = val);
+		
+		function read(name, setter) {
+			var val = query[name];
+			if (val == null)
+				return;
+			
+			val = parseInt(val);
+			if (isNaN(val)) {
+				return;
+			}
+			setter(val);
+		}
 	},
 	go_ (diff) {
 		this.model.pageNum += diff;
 		this.load_();
 	},
+	activity_ (diff) {
+		//- this.model.activity += diff;
+		this.aDataset.activity(diff);
+	},
 	load_ () {
-		this.aDataset.activity(1);
+		this.activity_(1);
+		
+		var query = {
+			[this.xQueryPageNum ]: this.model.pageNum,
+			[this.xQueryPageSize]: this.model.pageSize
+		};
+		if (this.filterQuery) {
+			for (var key in this.filterQuery) {
+				query[key] = this.filterQuery[key];
+			}
+		}
+		
+		if (typeof ruta !== 'undefined') {
+			ruta.navigate(query, { extend: true});
+		}
 		return $
-			.getJSON(this.xEndpoint, {
-				[this.xQueryPageNum ]: this.model.pageNum,
-				[this.xQueryPageSize]: this.model.pageSize
-			})
+			.getJSON(this.xEndpoint, query)
 			.done(page => {
 				this.setData_(page);
-				this.aDataset.activity(-1);
+				this.activity_(-1);
 			});
 	},
 	setData_ (page) {
-		this.model.collection = page[this.xPropCollection];
+		this.model.data.collection = page[this.xPropCollection];
 		var isLast = false;
 		if (this.xPropIsLast) {
 			isLast = page[this.xPropIsLast];
@@ -69,9 +130,11 @@ var PagerDataProvider = Compo({
 				isLast = true;
 			}
 		}
-		else if (this.model.collection.length < this.xPageSize) {
+		else if (this.model.data.collection.length < this.xPageSize) {
 			isLast = true;
 		}
+		
+		this.model.pageTotal = Math.ceil(page[this.xPropTotal] / this.xPageSize);
 		this.model.isLastPage = isLast;
 	}
 	
