@@ -44,6 +44,7 @@ var PagerDataProvider = Compo({
 		if (query != null) {
 			this.filterQuery = query;
 		}
+		this.model.pageNum = 1;
 		this.load_();
 	},
 	
@@ -64,6 +65,12 @@ var PagerDataProvider = Compo({
 		this.readQuery_();
 		this.load_();
 	},
+	
+	addEntity (json) {
+		var arr = this.model.data.collection;
+		if (arr) arr.push(json);
+	},
+	
 	readQuery_ () {
 		if (typeof ruta == 'undefined') {
 			return;
@@ -74,6 +81,16 @@ var PagerDataProvider = Compo({
 		}
 		read(this.xQueryPageNum,  val => this.model.pageNum  = val);
 		read(this.xQueryPageSize, val => this.model.pageSize = val);
+		
+		for (var key in query) {
+			if (key === this.xQueryPageNum || key === this.xQueryPageSize) {
+				continue;
+			}
+			if (this.filterQuery == null) {
+				this.filterQuery = {};
+			}
+			this.filterQuery[key] = query[key];
+		}
 		
 		function read(name, setter) {
 			var val = query[name];

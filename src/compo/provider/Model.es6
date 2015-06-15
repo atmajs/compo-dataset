@@ -11,6 +11,10 @@ var ModelDataProvider = Compo({
 		};
 		this.aDataset = this.closest('a:dataset');
 		this.aDataset.data = this.model.data;
+	},
+	addEntity (json) {
+		var arr = this.model.data.collection;
+		if (arr) arr.push(json);
 	}
 	
 });

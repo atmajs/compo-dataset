@@ -16,11 +16,15 @@ var DatasetCompo = mask.Compo({
 					.find('Editor')
 					.remove(model)
 					.done(onRemove)
+					.fail(onError)
 			};
 			var onRemove = () => {
 				var arr = this.data.collection,
 					i   = arr.indexOf(model);
 				arr.splice(i, 1);
+			};
+			var onError = (error) => {
+				alert('Error ' + error.message);
 			};
 			this
 				.find('Confirmation')
@@ -37,14 +41,17 @@ var DatasetCompo = mask.Compo({
 				.find('Editor')
 				.edit(model)
 				.done(json => {
-					this.data.collection.push(json);
+					var provider = this.find('#provider');
+					if (provider.addEntity) {
+						provider.addEntity(json);
+					}
 				})
 		}
 	},
 	
 	filter (query) {
 		var provider = this.find('#provider');
-		if (provider && provider.filter) {
+		if (provider.filter) {
 			provider.filter(query);
 		}
 	},

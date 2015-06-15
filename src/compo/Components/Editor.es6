@@ -16,6 +16,9 @@
 		slots: {
 			'complete' (sender, json) {
 				this.resolve(json);
+			},
+			'error' (sender, error) {
+				this.reject(error);
 			}
 		},
 		onRenderStart (model, ctx, container, parent) {
