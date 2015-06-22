@@ -71,6 +71,12 @@ var PagerDataProvider = Compo({
 		if (arr) arr.push(json);
 	},
 	
+	removeEntity (json) {
+		var arr = this.model.data.collection,
+			i   = arr.indexOf(json);
+		arr.splice(i, 1);
+	},
+	
 	readQuery_ () {
 		if (typeof ruta == 'undefined') {
 			return;

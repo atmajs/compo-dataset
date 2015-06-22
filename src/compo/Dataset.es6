@@ -19,9 +19,10 @@ var DatasetCompo = mask.Compo({
 					.fail(onError)
 			};
 			var onRemove = () => {
-				var arr = this.data.collection,
-					i   = arr.indexOf(model);
-				arr.splice(i, 1);
+				this
+					.find('#provider')
+					.removeEntity(model)
+					;
 			};
 			var onError = (error) => {
 				alert('Error ' + error.message);
