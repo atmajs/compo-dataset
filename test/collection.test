@@ -50,6 +50,7 @@ UTest({
 				find('.a-dataset-editor') {
 					find('input[type=text]') {
 						val 1;
+						select (1,0);
 						do type A;
 						trigger change;
 						val 1A;

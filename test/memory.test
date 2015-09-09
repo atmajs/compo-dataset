@@ -43,6 +43,7 @@ UTest({
 				find('.a-dataset-editor') {
 					find('input[type=text]') {
 						val Foo;
+						select (3,0);
 						do press d;
 						trigger change;
 						val Food;
