@@ -1,7 +1,7 @@
 (function(){
 	io.File.disableCache()
-	
-	var server = require('atma-server');	
+
+	var server = require('atma-server');
 
 
 	include.exports = {
@@ -9,7 +9,8 @@
 			app.config.server.handlers = {
 				'^/echo/' : EchoHandler,
 				'^/error/' : ErrorHandler,
-				'^/foo/' : FooService
+				'^/foo/' : FooService,
+				'^/collection/': require('./services/CollectionService'),
 			};
 
 			app
@@ -31,7 +32,7 @@
 					'Access-Control-Allow-Origin': '*',
 					'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
 				});
-				
+
 				res.end(body);
 				return;
 			}
@@ -44,14 +45,14 @@
 			var status = req.query.status || 500,
 				message = req.query.message || 'Uknown error',
 				body = JSON.stringify({ message: message});
-				
+
 			res.writeHead(status, {
 				'Content-Type': 'application/json'
 			});
 			res.end(body);
 		}
 	};
-	
+
 	var FooService = server.HttpService({
 		'single': function () {
 			this.resolve({
@@ -59,6 +60,6 @@
 			});
 		}
 	});
-	
-	
+
+
 }());

@@ -1,0 +1,47 @@
+UTest({
+	$config: {
+		'http.process': {
+			command: 'npm run examples',
+			matchReady: '/Listen /'
+		}
+	},
+	$before (next) {
+		UTest
+			.server
+			.request('http://localhost:5771/collection/reset', 'POST')
+			.done(next);
+	},
+	'load page' (next) {
+		UTest
+			.server
+			.request('http://localhost:5771/examples/index.html?pager')
+			.done((doc, win) => {
+				next(doc, win);
+			});
+	},
+	'has items' (done, doc, win) {
+		UTest
+			.domtest(doc.body, `
+				await('table td');
+				find ('table td:nth-child(2)') {
+					eq (0) > text 1;
+					eq (1) > text 2;
+				}
+			`)
+			.always(() => done(doc, win));
+	},
+	'filer provider' (done, doc, win) {
+		UTest
+			.domtest(doc.body, `
+				find ('.btn-filter') {
+					click;
+				}
+				await(300);
+				find ('table td:nth-child(2)') {
+					eq (0) > text 2;
+					eq (1) > text 4;
+				}
+			`)
+			.always(() => done(doc, win));
+	}
+});

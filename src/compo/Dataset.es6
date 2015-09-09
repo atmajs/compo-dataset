@@ -6,11 +6,11 @@ var DatasetCompo = mask.Compo({
 	attr: {
 		style: 'position: relative;'
 	},
-	
+
 	slots: {
 		datasetItemRemove (event) {
 			var model = $(event.target).model();
-			
+
 			var onComfirm = () => {
 				this
 					.find('Editor')
@@ -37,7 +37,7 @@ var DatasetCompo = mask.Compo({
 			this.find('Editor').edit(model);
 		},
 		datasetItemNew (event) {
-			var model = this.createDataItem();			
+			var model = this.createDataItem();
 			this
 				.find('Editor')
 				.edit(model)
@@ -49,29 +49,29 @@ var DatasetCompo = mask.Compo({
 				})
 		}
 	},
-	
+
 	filter (query) {
 		var provider = this.find('#provider');
 		if (provider.filter) {
 			provider.filter(query);
 		}
 	},
-	
+
 	activity (diff) {
 		this.emitIn('datasetActivity', diff);
 	},
-	
+
 	onRenderStart (model, ctx, container) {
-		jmask(this).prepend('Activity; Confirmation;');
+		jmask(this).append('Activity; Confirmation;');
 		this.ensureDataProvider_();
 	},
-	
+
 	createDataItem () {
 		var provider = this.find('#provider');
 		var obj = mask.obj.get(provider, 'model.data.collection.0') || {};
 		return obj_createInstance(obj);
 	},
-	
+
 	ensureDataProvider_ () {
 		if (this.xEndpoint == null) {
 			return;
@@ -85,8 +85,8 @@ mask.registerFromTemplate(`
 	// import Controls/Confirmation.mask
 	// import Controls/Dialog.mask
 	// import Controls/Table.mask
+	// import Controls/List.mask
 `, DatasetCompo);
 
 // import Components/Editor.es6
-// import Provider/Model.es6
-// import Provider/Pager.es6
+// import Provider/exports.es6

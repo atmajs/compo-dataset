@@ -1,4 +1,3 @@
-	
 var ModelDataProvider = Compo({
 	aDataset: null,
 	onRenderStart (model) {

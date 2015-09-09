@@ -25,6 +25,6 @@
     }
   },
   "dependencies": {
-    "maskjs": "^0.51.27"
+    "maskjs": ">0.51.27"
   }
 }
