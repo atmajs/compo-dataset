@@ -6,7 +6,8 @@ var IDataProvider = {
 	meta: {
 		template: 'merge',
 		attributes: {
-			'endpoint': 'string'
+			'endpoint': 'string',
+			'enable-ruta': true
 		}
 	},
 	slots: {
@@ -57,7 +58,7 @@ var IDataProvider = {
 		arr.splice(i, 1);
 	},
 	readQuery_ () {
-		if (typeof ruta == 'undefined') {
+		if (typeof ruta == 'undefined' || this.xEnableRuta !== true) {
 			return;
 		}
 		var query = ruta._.query.get();
@@ -102,7 +103,7 @@ var IDataProvider = {
 			}
 		}
 
-		if (typeof ruta !== 'undefined') {
+		if (typeof ruta !== 'undefined' && this.xEnableRuta) {
 			ruta.navigate(query, { extend: true});
 		}
 		return $
