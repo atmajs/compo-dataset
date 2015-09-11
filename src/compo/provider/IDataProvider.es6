@@ -34,11 +34,9 @@ var IDataProvider = {
 			},
 			activity: 0,
 		};
-
 		this.aDataset = this.closest('a:dataset');
-		this.readQuery_();
-
 		this.onRenderStart_();
+		this.readQuery_();
 		this.load_();
 	},
 	onRenderStart_ () {
