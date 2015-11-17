@@ -20,6 +20,7 @@
   "dependencies": {
     "maskjs": ">0.12.22",
     "bootstrap": "~3.3.4",
-    "compo-form": ">0.9.6"
+    "compo-form": ">0.9.6",
+    "compo-dataset": "~0.9.11"
   }
 }
