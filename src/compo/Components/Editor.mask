@@ -1,9 +1,0 @@
-let Editor as (div.a-dataset-editor) {
-	
-	var meta = {
-		attributes: {
-			'overlay': 'body'
-		}
-	};
-	
-}
