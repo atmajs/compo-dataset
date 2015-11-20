@@ -33,8 +33,8 @@ var DatasetCompo = mask.Compo({
 				.done(onComfirm);
 		},
 		datasetItemEdit (event) {
-			var model = $(event.target).model();
-			this.find('Editor').edit(model);
+			var compo = $(event.target).compo();
+			this.find('Editor').edit(compo.model, compo);
 		},
 		datasetItemNew (event) {
 			var model = this.createDataItem();
@@ -84,6 +84,7 @@ mask.registerFromTemplate(`
 	// import Controls/Activity.mask
 	// import Controls/Confirmation.mask
 	// import Controls/Dialog.mask
+	// import Controls/Inline.mask
 	// import Controls/Table.mask
 	// import Controls/List.mask
 `, DatasetCompo);

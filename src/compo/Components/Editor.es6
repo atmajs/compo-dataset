@@ -1,12 +1,12 @@
 (function () {
-	
+
 	var Editor = mask.Compo(mask.class.Deferred, {
 		tagName: 'div',
 		meta: {
 			mode: 'client',
 			template: 'merge',
 		},
-		
+
 		attr: {
 			class: 'a-dataset-editor'
 		},
@@ -29,14 +29,14 @@
 				console.warn('Dataset Component. When using `Editor`, it must contain `a:form` component');
 			}
 		},
-		
-		edit (model) {
+
+		edit (model, compo) {
 			this.defer();
 			this.compos.form.setEntity(model);
-			this.emitIn('datasetEditorOpen');
+			this.emitIn('datasetEditorOpen', compo);
 			return this;
 		},
-		
+
 		remove (model) {
 			this.defer();
 			this.compos.form.removeEntity(model);
