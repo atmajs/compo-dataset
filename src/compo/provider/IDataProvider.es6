@@ -49,7 +49,14 @@ var IDataProvider = {
 		}
 		arr.push(json);
 	},
-
+	updateEntity (json) {
+		var arr = this.model.data.collection;
+		if (arr == null) {
+			arr = this.model.data.collection = [];
+		}
+		var i = arr.indexOf(json);
+		arr.splice(i, 1, json);
+	},
 	removeEntity (json) {
 		var arr = this.model.data.collection,
 			i   = arr.indexOf(json);

@@ -34,7 +34,15 @@ var DatasetCompo = mask.Compo({
 		},
 		datasetItemEdit (event) {
 			var compo = $(event.target).compo();
-			this.find('Editor').edit(compo.model, compo);
+			this
+				.find('Editor')
+				.edit(compo.model, compo)
+				.done(json => {
+					var provider = this.find('#provider');
+					if (provider.updateEntity) {
+						provider.updateEntity(json);
+					}
+				});
 		},
 		datasetItemNew (event) {
 			var model = this.createDataItem();
