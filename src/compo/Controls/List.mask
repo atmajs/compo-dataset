@@ -1,9 +1,0 @@
-let List as (ul.unstyled) {
-
-	let Actions {
-		a .btn.btn-sm title='Edit'   x-tap=datasetItemEdit   > i.glyphicon.glyphicon-pencil;
-		a .btn.btn-sm title='Remove' x-tap=datasetItemRemove > i.glyphicon.glyphicon-trash;
-	}
-	
-	+each(data.collection) > li > @template;
-}
