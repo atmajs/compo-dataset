@@ -34,9 +34,10 @@ var DatasetCompo = mask.Compo({
 		},
 		datasetItemEdit (event) {
 			var compo = $(event.target).compo();
+			var model = this.cloneDataItem(compo.model);
 			this
 				.find('Editor')
-				.edit(compo.model, compo)
+				.edit(model, compo)
 				.done(json => {
 					var provider = this.find('#provider');
 					if (provider.updateEntity) {
@@ -78,6 +79,10 @@ var DatasetCompo = mask.Compo({
 		var provider = this.find('#provider');
 		var obj = mask.obj.get(provider, 'model.data.collection.0') || {};
 		return obj_createInstance(obj);
+	},
+
+	cloneDataItem (model) {
+		return obj_clone(model);
 	},
 
 	ensureDataProvider_ () {

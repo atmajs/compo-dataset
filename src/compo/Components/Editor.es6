@@ -16,9 +16,6 @@
 		slots: {
 			'complete' (sender, json) {
 				this.resolve(json);
-			},
-			'error' (sender, error) {
-				this.reject(error);
 			}
 		},
 		onRenderStart (model, ctx, container, parent) {
@@ -32,6 +29,7 @@
 
 		edit (model, compo) {
 			this.defer();
+			this._done = this._fail = this._always = null;
 			this.compos.form.setEntity(model);
 			this.emitIn('datasetEditorOpen', compo);
 			return this;

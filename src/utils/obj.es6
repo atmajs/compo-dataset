@@ -1,5 +1,6 @@
 var obj_createInstance,
-	obj_getType;
+	obj_getType,
+	obj_clone;
 (function(){
 	
 	obj_createInstance = function (obj) {
@@ -22,4 +23,20 @@ var obj_createInstance,
 		}
 		return out;
 	};
+	obj_clone = function(obj){
+		var Ctor = obj.constructor;
+		if (typeof Ctor.clone === 'function') {
+			return Ctor.clone(obj);
+		}
+		if (typeof obj.clone === 'function') {
+			return obj.clone();
+		}
+		var instance = Ctor !== Object && Ctor.length === 0
+			? new Ctor
+			: {};
+		
+		obj_extend(instance, obj);
+		return instance;
+	};
+
 }());
