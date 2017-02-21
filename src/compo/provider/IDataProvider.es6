@@ -49,12 +49,25 @@ var IDataProvider = {
 		}
 		arr.push(json);
 	},
-	updateEntity (json) {
+	updateEntity (json, original = null) {
 		var arr = this.model.data.collection;
 		if (arr == null) {
-			arr = this.model.data.collection = [];
+			arr = this.model.data.collection = [json];
+			return;
 		}
-		var i = arr.indexOf(json);
+		var i = -1;
+		if (original != null) {
+			i = arr.indexOf(original);
+		}
+		
+		if (i === -1 && json.id !== void 0) {
+			var x = arr.find(x => x.id === json.id);
+			i = arr.indexOf(x);
+		}
+		if (i === -1 && json.name !== void 0) {
+			var x = arr.find(x => x.name === json.name);
+			i = arr.indexOf(x);
+		}
 		arr.splice(i, 1, json);
 	},
 	removeEntity (json) {

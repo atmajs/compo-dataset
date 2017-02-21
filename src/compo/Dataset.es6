@@ -34,14 +34,15 @@ var DatasetCompo = mask.Compo({
 		},
 		datasetItemEdit (event) {
 			var compo = $(event.target).compo();
-			var model = this.cloneDataItem(compo.model);
+			var originalModel = compo.model;
+			var model = this.cloneDataItem(originalModel);
 			this
 				.find('Editor')
 				.edit(model, compo)
 				.done(json => {
 					var provider = this.find('#provider');
 					if (provider.updateEntity) {
-						provider.updateEntity(json);
+						provider.updateEntity(json, originalModel);
 					}
 				});
 		},
