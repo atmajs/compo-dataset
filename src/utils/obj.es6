@@ -35,7 +35,7 @@ var obj_createInstance,
 			? new Ctor
 			: {};
 		
-		obj_extend(instance, obj);
+		mask.obj.extend(instance, obj);
 		return instance;
 	};
 
